@@ -1,0 +1,16 @@
+node_modules
+.env
+serviceAccount.json
+errors.log
+admin.log
+events.log
+notificationLog.log
+test.js
+serviceAccountNew.json
+*.log
+banner.log
+rebuild.js
+scratch.js
+config/serviceAccountKey.json
+utils/chat/s3-credentials.js
+serviceAccount.json
