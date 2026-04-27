@@ -177,15 +177,36 @@ const getDeletedAccommodation = async (param) => {
   const { perPage, page } = param;
   try {
     const totalCount = await Accommodation.countDocuments({ isDeleted: true });
-    const totalPages = Math.ceil(totalCount/perPage);
-    if(page > totalPages) {
+    const totalPages = Math.ceil(totalCount / perPage);
+    if (page > totalPages) {
       return { accommodations: [], totalPages, totalCount: 0 }
     }
     const skip = (page - 1) * perPage;
-    const accommodations = await Accommodation.find({ isDeleted: true }).sort({ createdAt: -1}).skip(skip).limit(perPage).exec();
+    const accommodations = await Accommodation.find({ isDeleted: true }).sort({ createdAt: -1 }).skip(skip).limit(perPage).exec();
     return { accommodations, totalPages, totalCount };
   } catch (error) {
     console.log("error in getDeletedAccommodation", error.message);
+    return false;
+  }
+}
+
+const getBoostedAccommodations = async (param) => {
+  const { perPage, page } = param;
+  try {
+    const totalCount = await Accommodation.countDocuments({ isBoosted: true, isDeleted: false });
+    const totalPages = Math.ceil(totalCount / perPage);
+    if (page > totalPages && totalPages !== 0) {
+      return { accommodations: [], totalPages, totalCount: 0 }
+    }
+    const skip = (page - 1) * perPage;
+    const accommodations = await Accommodation.find({ isBoosted: true, isDeleted: false })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(perPage)
+      .exec();
+    return { accommodations, totalPages, totalCount };
+  } catch (error) {
+    console.log("error in getBoostedAccommodations", error.message);
     return false;
   }
 }
@@ -221,6 +242,7 @@ module.exports = {
   getDeletedGiveaways,
   getDeletedMarketplace,
   getDeletedAccommodation,
+  getBoostedAccommodations,
   getDeletedEvents,
   isValidObjectId,
 };

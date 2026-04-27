@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from './layouts/AdminLayout';
 import Dashboard from './pages/Dashboard';
 import Accommodations from './pages/Accommodations';
+import AccommodationDetails from './pages/AccommodationDetails';
 import Events from './pages/Events';
 import LoginPage from './pages/LoginPage';
 import authService from './services/authService';
@@ -46,7 +47,10 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Placeholder title="Users" />} />
           <Route path="revenue" element={<RevenueFinance />} />
-          <Route path="accommodations" element={<Accommodations />} />
+          <Route path="accommodations">
+            <Route index element={<Accommodations />} />
+            <Route path="details/:adsId" element={<AccommodationDetails />} />
+          </Route>
           <Route path="events" element={<Events />} />
           <Route path="marketplace" element={<Marketplace />} />
           <Route path="subscription-plans" element={<SubscriptionPlans />} />

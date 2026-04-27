@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Hotel, 
-  Search, 
-  ChevronDown, 
+import { useNavigate } from 'react-router-dom';
+import {
+  Hotel,
+  Search,
+  ChevronDown,
   Star,
   Download,
   Plus,
@@ -44,7 +45,7 @@ const Accommodations = () => {
   const [regions, setRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState('');
   const [isRegionDropdownOpen, setIsRegionDropdownOpen] = useState(false);
-  const [openManageId, setOpenManageId] = useState(null);
+  const navigate = useNavigate();
 
   // Mock data for sidebar
   const reportedListings = [
@@ -68,8 +69,11 @@ const Accommodations = () => {
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [page, activeTab, selectedRegion]);
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 500); // Debounce search
+    return () => clearTimeout(timer);
+  }, [page, activeTab, selectedRegion, search]);
 
   const fetchRegions = async () => {
     try {
@@ -86,7 +90,21 @@ const Accommodations = () => {
       const count = await adminService.getAccommodationCount();
       setTotalCount(count);
 
-      const data = await adminService.getAccommodations(page, 10, selectedRegion);
+      let data;
+      if (search.trim()) {
+        const searchData = await adminService.searchAccommodations(search, page);
+        data = {
+          accommodations: searchData.results || [],
+          meta: searchData.meta || { totalPages: 1 }
+        };
+      } else if (activeTab === 'Boosted Ads') {
+        data = await adminService.getBoostedAccommodations(page);
+      } else if (activeTab === 'Reported Listings' || activeTab === 'Suspensions') {
+        data = { accommodations: [], meta: { totalPages: 1 } };
+      } else {
+        data = await adminService.getAccommodations(page, 10, selectedRegion);
+      }
+      
       setAccommodations(data.accommodations || []);
       setTotalPages(data.meta?.totalPages || 1);
     } catch (error) {
@@ -113,99 +131,122 @@ const Accommodations = () => {
 
       {/* Summary Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <StatCard title="Total Listings" value="920" />
-        <StatCard title="Active Listings" value="832" />
-        <StatCard title="Total Bookings" value="2,035" />
-        <StatCard title="Total Revenue" prefix="GHS" value="32,750" />
-        <StatCard title="Average Booking" value="3.6" suffix="Nights" />
-        <StatCard title="Reported" prefix="GHS" value="32,750" />
+        <StatCard title="Total Listings" value={totalCount} />
+        <StatCard title="Active Listings" value={accommodations.filter(a => !a.isDeleted).length} />
+        <StatCard title="Total Bookings" value="-" />
+        <StatCard title="Total Revenue" prefix="GHS" value="-" />
+        <StatCard title="Average Booking" value="-" suffix="Nights" />
+        <StatCard title="Reported" value="-" />
       </div>
 
-      {/* Top Toolbar Area */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+      {/* Header Toolbar */}
+      <div className="flex items-center justify-between bg-white px-8 py-4 rounded-lg shadow-sm border border-gray-100 mb-6">
         <h1 className="text-xl font-black text-gray-800 tracking-tight">Accommodation Overview</h1>
         
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="relative group min-w-[300px]">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#2d5496] transition-colors" />
-            <input 
-              type="text" 
-              placeholder="Search" 
-              className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-transparent rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20 focus:border-[#2d5496] transition-all"
+        <div className="flex items-center gap-4">
+          <div className="relative group min-w-[350px]">
+            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#2d5496] transition-colors" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full pl-4 pr-12 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#2d5496] focus:border-[#2d5496] transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <button className="px-6 py-2.5 bg-[#2d5496] text-white text-xs font-black rounded-xl uppercase hover:bg-[#1d3a6d] transition-colors shadow-sm">Review</button>
-          <button className="px-6 py-2.5 bg-rose-500 text-white text-xs font-black rounded-xl uppercase hover:bg-rose-600 transition-colors shadow-sm">Suspend</button>
-          <button className="px-6 py-2.5 bg-emerald-500 text-white text-xs font-black rounded-xl uppercase hover:bg-emerald-600 transition-colors shadow-sm">Boost</button>
-          <button className="px-6 py-2.5 bg-[#2d5496] text-white text-xs font-black rounded-xl uppercase hover:bg-[#1d3a6d] transition-colors shadow-sm flex items-center gap-2">
-            <Plus className="w-4 h-4" /> Add New
-          </button>
+          
+          <div className="flex items-center gap-2">
+            <button className="px-5 py-2 bg-[#2d5496] text-white text-[11px] font-black rounded-lg uppercase hover:bg-[#1d3a6d] transition-colors shadow-sm">Review</button>
+            <button className="px-5 py-2 bg-rose-600 text-white text-[11px] font-black rounded-lg uppercase hover:bg-rose-700 transition-colors shadow-sm">Suspend</button>
+            <button className="px-5 py-2 bg-teal-500 text-white text-[11px] font-black rounded-lg uppercase hover:bg-teal-600 transition-colors shadow-sm">Boost</button>
+            <button className="px-5 py-2 bg-[#2d5496] text-white text-[11px] font-black rounded-lg uppercase hover:bg-[#1d3a6d] transition-colors shadow-sm flex items-center gap-2">
+              Add New
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Main Content Area */}
         <div className="xl:col-span-9 space-y-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
-            {/* Filter Tabs Row */}
-            <div className="px-8 py-6 flex flex-wrap items-center justify-between gap-4 border-b border-gray-50">
-              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
-                {['All Listings', 'Reported Listings', 'Suspensions'].map((tab) => (
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+            {/* Filter Tabs & Actions Row */}
+            <div className="px-8 py-5 flex flex-wrap items-center justify-between gap-4 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setActiveTab('All Listings')}
+                  className={`px-5 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all flex items-center gap-2 border shadow-sm
+                    ${activeTab === 'All Listings'
+                      ? 'bg-[#2d5496] text-white border-[#2d5496]'
+                      : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50'}`}
+                >
+                  All Listings <ChevronDown className="w-3.5 h-3.5" />
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('Boosted Ads')}
+                  className={`px-5 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all flex items-center gap-2 border shadow-sm
+                    ${activeTab === 'Boosted Ads'
+                      ? 'bg-[#2d5496] text-white border-[#2d5496]'
+                      : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50'}`}
+                >
+                  <Zap className={`w-3.5 h-3.5 ${activeTab === 'Boosted Ads' ? 'text-amber-400 fill-amber-400' : 'text-amber-500'}`} />
+                  Boosted Ads
+                </button>
+                
+                {['Reported Listings', 'Suspensions'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-6 py-2 rounded-xl text-[11px] font-black uppercase transition-all flex items-center gap-2 whitespace-nowrap
-                      ${activeTab === tab 
-                        ? 'bg-[#2d5496] text-white shadow-lg shadow-[#2d5496]/20' 
-                        : 'bg-gray-50 text-gray-500 hover:bg-gray-100 border border-transparent'}`}
+                    className={`px-5 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all border shadow-sm
+                      ${activeTab === tab
+                        ? 'bg-[#2d5496] text-white border-[#2d5496]'
+                        : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50'}`}
                   >
                     {tab}
-                    {tab === 'All Listings' && <ChevronDown className="w-3 h-3" />}
                   </button>
                 ))}
-              </div>
 
-              <div className="flex items-center gap-3">
-                {/* Location Filter */}
                 <div className="relative">
-                  <button 
+                  <button
                     onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-black text-gray-600 hover:border-[#2d5496] transition-colors group"
+                    className="flex items-center gap-2 px-5 py-1.5 bg-white border border-gray-100 rounded-lg text-[11px] font-black text-gray-600 hover:border-[#2d5496] transition-colors shadow-sm"
                   >
                     <span>{selectedRegion || 'All Locations'}</span>
-                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 group-hover:text-[#2d5496] transition-transform ${isRegionDropdownOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
                   </button>
                   <AnimatePresence>
                     {isRegionDropdownOpen && (
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full mt-2 right-0 w-48 bg-white border border-gray-50 shadow-2xl rounded-2xl p-2 z-[60]"
+                        className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-xl rounded-lg p-2 z-[60]"
                       >
-                        <div onClick={() => handleRegionSelect('')} className="px-3 py-2 rounded-lg text-xs font-bold text-gray-500 hover:bg-gray-50 cursor-pointer">All Locations</div>
+                        <div onClick={() => handleRegionSelect('')} className="px-3 py-2 rounded-lg text-xs font-bold text-gray-500 hover:bg-gray-50 cursor-pointer transition-colors">All Locations</div>
                         {regions.map(r => (
-                          <div key={r} onClick={() => handleRegionSelect(r)} className="px-3 py-2 rounded-lg text-xs font-bold text-gray-500 hover:bg-gray-50 cursor-pointer">{r}</div>
+                          <div key={r} onClick={() => handleRegionSelect(r)} className="px-3 py-2 rounded-lg text-xs font-bold text-gray-500 hover:bg-gray-50 cursor-pointer transition-colors">{r}</div>
                         ))}
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-black text-gray-600">
+                <button className="px-5 py-1.5 bg-white border border-gray-100 rounded-lg text-[11px] font-black text-gray-600 hover:border-[#2d5496] transition-colors shadow-sm">
                   Status
-                </div>
+                </button>
+              </div>
 
-                <div className="h-8 w-px bg-gray-100 mx-2" />
-
-                <button className="flex items-center gap-2 text-[10px] font-black uppercase text-gray-400 hover:text-gray-800 transition-colors">
-                  <Download className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-4">
+                <button className="flex items-center gap-2 text-[11px] font-black uppercase text-gray-600 hover:text-[#2d5496] transition-colors">
+                  <Download className="w-4 h-4" />
                   Export CSV
                 </button>
-                <MoreVertical className="w-4 h-4 text-gray-400 cursor-pointer" />
-                <Filter className="w-4 h-4 text-gray-400 cursor-pointer" />
+                <div className="h-6 w-px bg-gray-100" />
+                <MoreVertical className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
+                <div className="p-1.5 bg-gray-50 rounded-lg cursor-pointer">
+                  <Filter className="w-4 h-4 text-gray-500" />
+                </div>
               </div>
             </div>
 
@@ -213,7 +254,7 @@ const Accommodations = () => {
             <div className="flex-1 overflow-hidden">
               <div className="px-8 py-4">
                 {/* Table Header */}
-                <div className="grid grid-cols-12 gap-2 px-6 py-4 bg-[#2d5496] text-white rounded-xl text-[10px] font-black uppercase tracking-wider">
+                <div className="grid grid-cols-12 gap-2 px-6 py-4 bg-[#2d5496] text-white rounded-lg text-[10px] font-black uppercase tracking-wider">
                   <div className="col-span-3 flex items-center gap-3">
                     <input type="checkbox" className="w-4 h-4 rounded border-white/20 bg-transparent text-emerald-500 focus:ring-0 cursor-pointer" />
                     <span>Title</span>
@@ -235,12 +276,22 @@ const Accommodations = () => {
                       <RefreshCcw className="w-8 h-8 text-[#2d5496] animate-spin mx-auto mb-4" />
                       <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Loading...</p>
                     </div>
+                  ) : accommodations.length === 0 ? (
+                    <div className="py-24 text-center">
+                      <Search className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+                      <h3 className="text-lg font-black text-gray-800 mb-1">No Listings Found</h3>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                        {search.trim() 
+                          ? `We couldn't find any results matching "${search}"`
+                          : `There are currently no ${activeTab.toLowerCase()} to display.`}
+                      </p>
+                    </div>
                   ) : (
                     accommodations.map((item) => (
                       <div key={item._id} className="grid grid-cols-12 gap-2 items-center px-6 py-4 hover:bg-gray-50/50 transition-colors relative border-b border-gray-200 bg-white">
                         <div className="col-span-3 flex items-center gap-3 min-w-0">
                           <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-emerald-500 focus:ring-0 cursor-pointer" />
-                          <div className="w-10 h-10 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-100">
+                          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-100">
                             {item.itemImages?.[0] ? (
                               <img src={item.itemImages[0]} alt={item.title} className="w-full h-full object-cover" />
                             ) : (
@@ -250,7 +301,10 @@ const Accommodations = () => {
                             )}
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <span className="text-xs font-bold text-gray-800 leading-tight truncate">{item.title}</span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs font-bold text-gray-800 leading-tight truncate">{item.title}</span>
+                              {item.isBoosted && <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500 flex-shrink-0" title="Boosted" />}
+                            </div>
                             <span className="text-[9px] text-gray-400 font-bold uppercase mt-0.5 truncate">{item.propertyType || 'Apartment'}</span>
                           </div>
                         </div>
@@ -282,24 +336,24 @@ const Accommodations = () => {
                         <div className="col-span-1 flex justify-center">
                           <div className="flex items-center gap-0.5">
                             {[1, 2, 3, 4, 5].map((s) => (
-                              <Star 
-                                key={s} 
-                                className={`w-2.5 h-2.5 ${s <= (item.averageRatings || 4) ? 'text-amber-400 fill-amber-400' : 'text-gray-200'}`} 
+                              <Star
+                                key={s}
+                                className={`w-2.5 h-2.5 ${s <= Math.round(item.averageRatings || 0) ? 'text-amber-400 fill-amber-400' : 'text-gray-200'}`}
                               />
                             ))}
                           </div>
                         </div>
 
                         <div className="col-span-1 flex justify-center">
-                          <span className="px-2 py-0.5 bg-emerald-500 text-white text-[9px] font-black rounded uppercase tracking-tighter">Active</span>
+                          <span className="px-2 py-0.5 bg-emerald-500 text-white text-[9px] font-black rounded-lg uppercase tracking-tighter">Active</span>
                         </div>
 
                         <div className="col-span-2 flex justify-center relative">
-                          <button 
-                            onClick={() => setOpenManageId(openManageId === item._id ? null : item._id)}
+                          <button
+                            onClick={() => navigate(`/accommodations/details/${item.adsId || item._id}`)}
                             className="flex items-center gap-1 px-3 py-1.5 bg-[#2d5496] text-white text-[9px] font-black rounded-lg uppercase hover:bg-[#1d3a6d] transition-all whitespace-nowrap"
                           >
-                            Manage <ChevronDown className={`w-2.5 h-2.5 transition-transform ${openManageId === item._id ? 'rotate-180' : ''}`} />
+                            View Details <ChevronRight className="w-2.5 h-2.5" />
                           </button>
                         </div>
                       </div>
@@ -315,10 +369,10 @@ const Accommodations = () => {
                 Showing {accommodations.length} of {totalCount} Listings
               </p>
               <div className="flex items-center gap-3">
-                <button 
+                <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-[10px] font-black uppercase text-gray-500 disabled:opacity-50 hover:border-[#2d5496] transition-colors"
+                  className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-[10px] font-black uppercase text-gray-500 disabled:opacity-50 hover:border-[#2d5496] transition-colors"
                 >
                   Prev
                 </button>
@@ -327,20 +381,19 @@ const Accommodations = () => {
                     <button
                       key={i}
                       onClick={() => setPage(i + 1)}
-                      className={`w-8 h-8 rounded-xl text-[11px] font-black flex items-center justify-center transition-all ${
-                        page === i + 1 
-                          ? 'bg-[#2d5496] text-white shadow-lg' 
+                      className={`w-8 h-8 rounded-lg text-[11px] font-black flex items-center justify-center transition-all ${page === i + 1
+                          ? 'bg-[#2d5496] text-white shadow-lg'
                           : 'bg-white border border-gray-200 text-gray-500 hover:border-[#2d5496]'
-                      }`}
+                        }`}
                     >
                       {i + 1}
                     </button>
                   ))}
                 </div>
-                <button 
+                <button
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-[10px] font-black uppercase text-gray-500 disabled:opacity-50 hover:border-[#2d5496] transition-colors flex items-center gap-2"
+                  className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-[10px] font-black uppercase text-gray-500 disabled:opacity-50 hover:border-[#2d5496] transition-colors flex items-center gap-2"
                 >
                   Next <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -352,13 +405,13 @@ const Accommodations = () => {
         {/* Sidebars Area */}
         <div className="xl:col-span-3 space-y-6">
           {/* Reported Listings */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
             <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-6">Reported Listings</h3>
             <div className="space-y-4">
               {reportedListings.map(item => (
-                <div key={item.id} className="p-4 bg-gray-50/50 rounded-2xl border border-gray-300 group hover:bg-white hover:shadow-md transition-all">
+                <div key={item.id} className="p-4 bg-gray-50/50 rounded-lg border border-gray-300 group hover:bg-white hover:shadow-md transition-all">
                   <div className="flex gap-4 mb-4">
-                    <div className="w-20 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
+                    <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="min-w-0">
@@ -383,13 +436,13 @@ const Accommodations = () => {
           </div>
 
           {/* Suspended Hosts */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
             <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-6">Suspended Hosts</h3>
             <div className="space-y-4">
               {suspendedHosts.map(host => (
-                <div key={host.id} className="p-3 bg-gray-50/50 rounded-2xl border border-gray-300 group hover:bg-white hover:shadow-md transition-all">
+                <div key={host.id} className="p-3 bg-gray-50/50 rounded-lg border border-gray-300 group hover:bg-white hover:shadow-md transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="w-16 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
+                    <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
                       <img src={host.image} alt={host.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">

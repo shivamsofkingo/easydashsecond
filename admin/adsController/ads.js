@@ -8,6 +8,7 @@ const Report = require("../../models/report.js");
 const Community = require("../../models/community.js");
 const Admin = require("../../models/admin.js");
 const Booking = require("../../models/Booking.js");
+const Reviews = require("../../models/reviews.js");
 const {
   hasPermission,
   getAllGiveawaysPost,
@@ -19,6 +20,7 @@ const {
   getDeletedAccommodation,
   getDeletedMarketplace,
   getDeletedEvents,
+  getBoostedAccommodations
 } = require("../utilities.js");
 
 const constants = require("../../constants/constants.js");
@@ -692,12 +694,6 @@ const getAllAccommodation = async (req, res) => {
     }
     const data = await getAllAccomodationPost(param);
     
-    // Debug logging to trace data source
-    console.log(`[DEBUG] Fetched ${data.accomodations?.length || 0} accommodations. Page: ${param.page}, Region: ${param.region || 'ALL'}`);
-    if (data.accomodations?.length > 0) {
-      console.log(`[DEBUG] First item sample: ID=${data.accomodations[0]._id}, Title="${data.accomodations[0].title}"`);
-    }
-
     if (data === false) {
       return res.status(constants.httpStatus.badRequest).json({
         status: 0,
@@ -1405,6 +1401,119 @@ const getAllEvents = async (req, res) => {
   }
 };
 
+const getAdDetailsById = async (req, res) => {
+  const { adsId, adsType } = req.query;
+  const myUserId = req.user._id;
+  try {
+    if (!myUserId) {
+      return res.status(constants.httpStatus.unauthorize).json({
+        status: 0,
+        msg: "unauthorize request",
+        payload: {},
+      });
+    }
+    if (!adsId || !adsType) {
+      return res.status(constants.httpStatus.badRequest).json({
+        status: 0,
+        msg: "missing required* fields",
+        payload: {},
+      });
+    }
+
+    let ad;
+    if (adsType === "Accommodation") {
+      ad = await Accommodation.findOne({ adsId }).populate('userId', 'name email profileImage createdAt totalAdsPosted totalReports isActive isVerifiedPM');
+    } else if (adsType === "Giveaway") {
+      ad = await Giveaway.findOne({ adsId }).populate('userId', 'name email profileImage createdAt totalAdsPosted totalReports isActive');
+    } else if (adsType === "Marketplace") {
+      ad = await Marketplace.findOne({ adsId }).populate('userId', 'name email profileImage createdAt totalAdsPosted totalReports isActive');
+    } else if (adsType === "Event") {
+      ad = await Event.findOne({ adsId }).populate('userId', 'name email profileImage createdAt totalAdsPosted totalReports isActive');
+    } else {
+      return res.status(constants.httpStatus.badRequest).json({
+        status: 0,
+        msg: "invalid ads type",
+        payload: {},
+      });
+    }
+
+    if (!ad) {
+      return res.status(constants.httpStatus.notFound).json({
+        status: 0,
+        msg: "ad not found",
+        payload: {},
+      });
+    }
+
+    // Fetch Reports for this Ad
+    const reports = await Report.find({ adsId: ad._id, isDeleted: false }).populate('reportedBy', 'name email');
+
+    // Fetch Reviews for this Ad
+    const reviews = await Reviews.find({ adsId: ad.adsId }).populate('userId', 'name profileImage').sort({ createdAt: -1 });
+
+    res.status(constants.httpStatus.ok).json({
+      status: 1,
+      msg: "success",
+      payload: {
+        ad,
+        reports,
+        reviews
+      },
+    });
+  } catch (error) {
+    adminLogger.error(`error in getAdDetailsById: ${error.message}`, { error });
+    res.status(constants.httpStatus.serverError).json({
+      status: 0,
+      msg: "something went wrong",
+      payload: {},
+    });
+  }
+};
+
+const getBoostedAccommodationAds = async (req, res) => {
+  const { pages } = req.query;
+  try {
+    const param = {
+      perPage: 16,
+      page: parseInt(pages, 10) || 1,
+    };
+    if (param.page < 1) {
+      return res.status(constants.httpStatus.badRequest).json({
+        status: 0,
+        msg: "Invalid page number",
+        payload: {},
+      });
+    }
+    const data = await getBoostedAccommodations(param);
+    if (data === false) {
+      return res.status(constants.httpStatus.badRequest).json({
+        status: 0,
+        msg: "internal server error",
+        payload: {},
+      });
+    }
+    res.status(constants.httpStatus.ok).json({
+      status: 1,
+      msg: "success",
+      payload: {
+        accommodations: data.accommodations,
+        meta: {
+          totalPages: data.totalPages,
+          totalCount: data.totalCount,
+          currentPage: param.page,
+        },
+      },
+    });
+  } catch (error) {
+    adminLogger.error(`error in getBoostedAccommodationAds: ${error.message}`, { error });
+    res.status(constants.httpStatus.serverError).json({
+      status: 0,
+      msg: "something went wrong",
+      payload: {},
+    });
+  }
+};
+
 module.exports = {
   getGiveawaysCount,
   getMarketplaceCount,
@@ -1429,7 +1538,9 @@ module.exports = {
   getDeletedMarketplaceAds,
   getDeletedAccommodationAds,
   getDeletedEventsAds,
+  getBoostedAccommodationAds,
   restoreAds,
   removeAds,
-  getAccommodationRegions
+  getAccommodationRegions,
+  getAdDetailsById
 };

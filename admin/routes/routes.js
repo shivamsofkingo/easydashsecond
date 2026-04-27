@@ -63,11 +63,13 @@ const {
     getDeletedMarketplaceAds,
     getDeletedAccommodationAds,
     getDeletedEventsAds,
+    getBoostedAccommodationAds,
     getEventDashboardStats,
     getAllEvents,
     removeAds,
     restoreAds,
-    getAccommodationRegions
+    getAccommodationRegions,
+    getAdDetailsById
 } = require("../adsController/ads.js");
 const { 
     getAllReports,
@@ -156,8 +158,10 @@ adminRouter.get("/getDeletedGiveaways", ensureAuth, roleIdentity(constants.role.
 adminRouter.get("/getDeletedMarketplaces", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getDeletedMarketplaceAds);
 adminRouter.get("/getDeletedAccommodations", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getDeletedAccommodationAds);
 adminRouter.get("/getDeletedEvents", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getDeletedEventsAds);
+adminRouter.get("/getBoostedAccommodations", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getBoostedAccommodationAds);
 adminRouter.get("/getEventDashboardStats", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getEventDashboardStats);
 adminRouter.get("/getAllEvents", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getAllEvents);
+adminRouter.get("/getAdDetailsById", ensureAuth, roleIdentity(constants.role.superAdmin, constants.role.admin), getAdDetailsById);
 
 // ------------------- roles -----------------------------------
 adminRouter.post("/createAdmin", ensureAuth, roleIdentity(constants.role.superAdmin), createAdmin);

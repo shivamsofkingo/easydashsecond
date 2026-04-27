@@ -1,6 +1,24 @@
 const Accomodation = require("../models/accomodation.js");
 const Reviews = require("../models/reviews.js");
 
+const recalculateAverageRatings = async (adsId, session = null) => {
+  const accomodation = await Accomodation.findOne({ adsId }).session(session);
+  if (!accomodation) return;
+
+  const reviews = await Reviews.find({ adsId }).session(session);
+  const ratingReviews = reviews.filter(r => r.ratings !== null);
+  const totalRatingsSum = ratingReviews.reduce((sum, r) => sum + r.ratings, 0);
+  const totalCount = ratingReviews.length;
+  
+  const newAverage = totalCount > 0 ? totalRatingsSum / totalCount : 0;
+  const ratingScore = newAverage * (Math.log10(totalRatingsSum + 1) + 1);
+
+  accomodation.totalRatings = totalCount;
+  accomodation.averageRatings = parseFloat(newAverage.toFixed(1));
+  accomodation.ratingScore = ratingScore;
+  await accomodation.save({ session });
+};
+
 const createReviews = async (req, res) => {
   const session = await Reviews.startSession();
   session.startTransaction();
@@ -43,7 +61,7 @@ const createReviews = async (req, res) => {
         payload: {},
       });
     }
-    const accomodation = await Accomodation.findById(adsId).session(session);
+    const accomodation = await Accomodation.findOne({ adsId }).session(session);
     if (!accomodation) {
       await session.abortTransaction();
       session.endSession();
@@ -89,15 +107,8 @@ const createReviews = async (req, res) => {
       }
       await accomodation.save({ session });
     }
-    const reviews = await Reviews.find({ adsId }).session(session);
-    const totalRatings = reviews.reduce((sum, r) => sum + (r.ratings || 0), 0);
-    const totalCount = reviews.filter(r => r.ratings !== null).length;
-    const newAverage = totalCount > 0 ? totalRatings / totalCount : 0;
-    const ratingScore =  accomodation.averageRatings * (Math.log10(totalRatings + 1) + 1);
-    accomodation.totalRatings = totalCount;
-    accomodation.averageRatings = newAverage.toFixed(1);
-    accomodation.ratingScore = ratingScore;
-    await accomodation.save({ session });
+    
+    await recalculateAverageRatings(adsId, session);
 
     await session.commitTransaction();
     session.endSession();
@@ -238,6 +249,7 @@ const updateReview = async (req, res) => {
       currentReview.ratings = ratings;
     }
     await currentReview.save();
+    await recalculateAverageRatings(adsId);
     res.status(200).json({
       status: 1,
       msg: "success",
@@ -324,17 +336,20 @@ const deleteReview = async (req, res) => {
         payload: {},
       });
     }
-    if (review.userId.toString() !== userId) {
+    const adsId = review.adsId;
+    const ad = await Accomodation.findOne({ adsId }).session(session);
+    
+    // Check if the user is either the review author or the owner of the accommodation (PM)
+    if (review.userId.toString() !== userId && ad?.userId.toString() !== userId) {
       await session.abortTransaction();
       session.endSession();
-      return res.status(400).json({
+      return res.status(403).json({
         status: 0,
-        msg: "unauthorize request",
+        msg: "unauthorize request: you must be the author or the property manager",
         payload: {},
       });
     }
-    const adsId = review.adsId;
-    const ad = await Accomodation.findById(adsId).session(session);
+
     if (ad) {
       ad.totalReviews = Math.max(0, (ad.totalReviews || 0) - 1);
       await ad.save({ session });
@@ -351,6 +366,9 @@ const deleteReview = async (req, res) => {
         payload: {},
       });
     }
+
+    await recalculateAverageRatings(adsId, session);
+
     await session.commitTransaction();
     session.endSession();
     return res.status(200).json({

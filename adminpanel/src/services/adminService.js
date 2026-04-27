@@ -71,6 +71,19 @@ const adminService = {
       return { accommodations: [], meta: {} };
     }
   },
+  
+  getBoostedAccommodations: async (page = 1) => {
+    try {
+      const response = await axios.get(`${API_URL}/getBoostedAccommodations`, {
+        params: { pages: page },
+        headers: getHeaders()
+      });
+      return response.data.status === 1 ? response.data.payload : { accommodations: [], meta: {} };
+    } catch (error) {
+      console.error('Error fetching boosted accommodations:', error);
+      return { accommodations: [], meta: {} };
+    }
+  },
 
   getAccommodationRegions: async () => {
     try {
@@ -107,6 +120,19 @@ const adminService = {
     } catch (error) {
       console.error('Error searching accommodations:', error);
       return { results: [], meta: {} };
+    }
+  },
+
+  getAccommodationDetails: async (adsId) => {
+    try {
+      const response = await axios.get(`${API_URL}/getAdDetailsById`, {
+        params: { adsId, adsType: 'Accommodation' },
+        headers: getHeaders()
+      });
+      return response.data.status === 1 ? response.data.payload : null;
+    } catch (error) {
+      console.error('Error fetching accommodation details:', error);
+      return null;
     }
   },
 
