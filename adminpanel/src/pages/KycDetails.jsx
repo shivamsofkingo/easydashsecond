@@ -152,7 +152,7 @@ const KycDetails = () => {
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-gray-400 uppercase ml-1">Phone No.</label>
                     <div className="px-6 py-4 bg-gray-50 border border-gray-300 rounded-lg font-bold text-gray-800 flex items-center gap-3 text-sm">
-                      <img src="https://flagcdn.com/w20/in.png" className="w-5 h-auto rounded-sm" alt="India" />
+                      <img src="https://flagcdn.com/w20/in.png" className="w-5 h-auto rounded-lg" alt="India" />
                       {user?.phoneNumber || '+91 9019287771'}
                     </div>
                   </div>

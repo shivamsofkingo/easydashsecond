@@ -256,7 +256,7 @@ const Accommodations = () => {
                 {/* Table Header */}
                 <div className="grid grid-cols-12 gap-2 px-6 py-4 bg-[#2d5496] text-white rounded-lg text-[10px] font-black uppercase tracking-wider">
                   <div className="col-span-3 flex items-center gap-3">
-                    <input type="checkbox" className="w-4 h-4 rounded border-white/20 bg-transparent text-emerald-500 focus:ring-0 cursor-pointer" />
+                    <input type="checkbox" className="w-4 h-4 rounded-lg border-white/20 bg-transparent text-emerald-500 focus:ring-0 cursor-pointer" />
                     <span>Title</span>
                   </div>
                   <span className="col-span-1 text-center">Host</span>
@@ -290,7 +290,7 @@ const Accommodations = () => {
                     accommodations.map((item) => (
                       <div key={item._id} className="grid grid-cols-12 gap-2 items-center px-6 py-4 hover:bg-gray-50/50 transition-colors relative border-b border-gray-200 bg-white">
                         <div className="col-span-3 flex items-center gap-3 min-w-0">
-                          <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-emerald-500 focus:ring-0 cursor-pointer" />
+                          <input type="checkbox" className="w-4 h-4 rounded-lg border-gray-300 text-emerald-500 focus:ring-0 cursor-pointer" />
                           <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-100">
                             {item.itemImages?.[0] ? (
                               <img src={item.itemImages[0]} alt={item.title} className="w-full h-full object-cover" />

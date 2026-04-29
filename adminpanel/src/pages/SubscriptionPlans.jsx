@@ -32,7 +32,7 @@ const PlanCard = ({ title, activeTab, onTabChange, tabs, currentPlan, onPriceUpd
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-300 shadow-sm p-6 space-y-6 flex flex-col h-full">
+    <div className="bg-white rounded-lg border border-gray-300 shadow-sm p-6 space-y-6 flex flex-col h-full">
       <div className="space-y-4">
         <h3 className="text-lg font-bold text-gray-800">{title}</h3>
         
@@ -55,7 +55,7 @@ const PlanCard = ({ title, activeTab, onTabChange, tabs, currentPlan, onPriceUpd
       </div>
 
       {/* Price Section */}
-      <div className="bg-[#f8f9fa] rounded-xl p-4 flex items-center justify-between group border border-gray-300 mt-auto">
+      <div className="bg-[#f8f9fa] rounded-lg p-4 flex items-center justify-between group border border-gray-300 mt-auto">
         <div className="flex items-center gap-6">
           <span className="text-xl font-black text-gray-900">Price</span>
           <div className="flex items-center gap-2">
@@ -97,7 +97,7 @@ const PlanCard = ({ title, activeTab, onTabChange, tabs, currentPlan, onPriceUpd
 
       {/* Features Section - Only show for non-boost plans */}
       {(title === "Profile Verification plan" || title === "Accommodation Plan") && (
-        <div className="bg-white rounded-xl p-6 space-y-4 border border-gray-300 mt-4 flex-1">
+        <div className="bg-white rounded-lg p-6 space-y-4 border border-gray-300 mt-4 flex-1">
           <h4 className="text-lg font-black text-gray-900 uppercase tracking-tight">Includes</h4>
           <ul className="space-y-3">
             {(currentPlan?.features || currentPlan?.tierFeatures || [

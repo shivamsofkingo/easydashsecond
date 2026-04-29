@@ -79,7 +79,7 @@ const CategoryCard = ({ title, count, label, revenue, reports, delay, badge }) =
         <span className="text-white font-bold text-sm">{title}</span>
       </div>
       {badge && (
-        <span className="absolute top-4 right-4 px-2 py-0.5 bg-red-500 text-[10px] font-black text-white rounded uppercase tracking-tighter">
+        <span className="absolute top-4 right-4 px-2 py-0.5 bg-red-500 text-[10px] font-black text-white rounded-lg uppercase tracking-tighter">
           {badge}
         </span>
       )}
@@ -184,7 +184,7 @@ const Dashboard = () => {
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#fff4e5] border border-[#ffe5cc] p-4 rounded-xl flex items-center gap-3 justify-between"
+        className="bg-[#fff4e5] border border-[#ffe5cc] p-4 rounded-lg flex items-center gap-3 justify-between"
       >
         <div className="flex items-center gap-3">
           <div className="p-1.5 bg-[#ff9800] rounded-lg">
@@ -238,12 +238,12 @@ const Dashboard = () => {
       {/* Data Tables Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Ads */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden">
           <div className="p-5 border-b border-gray-50 flex items-center justify-between">
             <h3 className="font-black text-gray-800 text-sm uppercase">Recent Ads</h3>
           </div>
           <div className="px-4 py-3">
-            <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-[#2d5496] text-white rounded-xl text-[10px] font-black uppercase tracking-wider mb-2">
+            <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-[#2d5496] text-white rounded-lg text-[10px] font-black uppercase tracking-wider mb-2">
               <span className="col-span-6">Title</span>
               <span className="col-span-3 text-center">Status</span>
               <span className="col-span-3 text-right">Actions</span>
@@ -252,16 +252,16 @@ const Dashboard = () => {
               {[1, 2, 3].map((_, i) => (
                 <div key={i} className="py-4 grid grid-cols-12 gap-4 items-center px-4 hover:bg-gray-50/50 transition-colors">
                   <div className="col-span-6 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
                       <Hotel className="w-5 h-5 text-gray-400" />
                     </div>
                     <span className="text-sm font-bold text-gray-700 truncate">House for Rent</span>
                   </div>
                   <div className="col-span-3 flex justify-center">
-                    <span className="px-2.5 py-1 bg-[#10b981] text-white text-[10px] font-black rounded uppercase">Active</span>
+                    <span className="px-2.5 py-1 bg-[#10b981] text-white text-[10px] font-black rounded-lg uppercase">Active</span>
                   </div>
                   <div className="col-span-3 flex justify-end">
-                    <button className="px-4 py-1.5 bg-[#ef4444] text-white text-[10px] font-black rounded uppercase hover:bg-rose-600 transition-colors">View</button>
+                    <button className="px-4 py-1.5 bg-[#ef4444] text-white text-[10px] font-black rounded-lg uppercase hover:bg-rose-600 transition-colors">View</button>
                   </div>
                 </div>
               ))}
@@ -273,12 +273,12 @@ const Dashboard = () => {
         </div>
 
         {/* Reported Content */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden">
           <div className="p-5 border-b border-gray-50 flex items-center justify-between">
             <h3 className="font-black text-gray-800 text-sm uppercase">Reported Content</h3>
           </div>
           <div className="px-4 py-3">
-            <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-[#2d5496] text-white rounded-xl text-[10px] font-black uppercase tracking-wider mb-2">
+            <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-[#2d5496] text-white rounded-lg text-[10px] font-black uppercase tracking-wider mb-2">
               <span className="col-span-5">Title</span>
               <span className="col-span-4 text-center">Issue</span>
               <span className="col-span-3 text-right">Actions</span>
@@ -300,7 +300,7 @@ const Dashboard = () => {
                     <p className="text-xs font-bold text-gray-800">{user.issue}</p>
                   </div>
                   <div className="col-span-3 flex justify-end">
-                    <button className="px-4 py-1.5 bg-[#2d5496] text-white text-[10px] font-black rounded uppercase hover:bg-[#204075] transition-colors">Review</button>
+                    <button className="px-4 py-1.5 bg-[#2d5496] text-white text-[10px] font-black rounded-lg uppercase hover:bg-[#204075] transition-colors">Review</button>
                   </div>
                 </div>
               ))}
@@ -312,12 +312,12 @@ const Dashboard = () => {
         </div>
 
         {/* User Violations */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden">
           <div className="p-5 border-b border-gray-50 flex items-center justify-between">
             <h3 className="font-black text-gray-800 text-sm uppercase">User Violations</h3>
           </div>
           <div className="px-4 py-3">
-            <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-[#2d5496] text-white rounded-xl text-[10px] font-black uppercase tracking-wider mb-2">
+            <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-[#2d5496] text-white rounded-lg text-[10px] font-black uppercase tracking-wider mb-2">
               <span className="col-span-5">Title</span>
               <span className="col-span-4 text-center">Violations</span>
               <span className="col-span-3 text-right">Actions</span>
@@ -339,7 +339,7 @@ const Dashboard = () => {
                     <p className="text-xs font-bold text-gray-800">{user.status}</p>
                   </div>
                   <div className="col-span-3 flex justify-end">
-                    <button className="px-4 py-1.5 bg-[#2d5496] text-white text-[10px] font-black rounded uppercase hover:bg-[#204075] transition-colors">Review</button>
+                    <button className="px-4 py-1.5 bg-[#2d5496] text-white text-[10px] font-black rounded-lg uppercase hover:bg-[#204075] transition-colors">Review</button>
                   </div>
                 </div>
               ))}

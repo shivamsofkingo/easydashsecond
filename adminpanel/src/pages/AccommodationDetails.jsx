@@ -48,7 +48,7 @@ const AccommodationDetails = () => {
       <div className="flex flex-col items-center justify-center min-h-[600px]">
         <ShieldAlert className="w-10 h-10 text-rose-500 mb-4" />
         <p className="text-gray-500 font-bold">{error || 'Ad not found'}</p>
-        <button onClick={() => navigate('/accommodations')} className="mt-4 px-4 py-2 bg-[#2d5496] text-white rounded-2xl text-xs font-black uppercase">Go Back</button>
+        <button onClick={() => navigate('/accommodations')} className="mt-4 px-4 py-2 bg-[#2d5496] text-white rounded-lg text-xs font-black uppercase">Go Back</button>
       </div>
     );
   }
@@ -131,13 +131,13 @@ const AccommodationDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Main Content Area */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 min-h-[812px] flex flex-col">
             <h2 className="text-2xl font-black text-gray-900 mb-6">{ad.title}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               {/* Image Gallery */}
               <div className="space-y-3">
-                <div className="aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                <div className="aspect-[16/10] rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                   {ad.itemImages && ad.itemImages.length > 0 ? (
                     <img src={ad.itemImages[activeImage]} alt="Main Ad" className="w-full h-full object-cover" />
                   ) : (
@@ -160,7 +160,7 @@ const AccommodationDetails = () => {
               </div>
 
               {/* Map Placeholder */}
-              <div className="aspect-[4/3] rounded-lg bg-gray-100 border border-gray-200 flex flex-col items-center justify-center relative overflow-hidden">
+              <div className="aspect-[16/10] rounded-lg bg-gray-100 border border-gray-200 flex flex-col items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 opacity-30 bg-[url('https://maps.gstatic.com/mapfiles/maps_lite/landscape/2.png')] bg-cover bg-center"></div>
                 <div className="z-10 bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-emerald-500" />
@@ -169,7 +169,7 @@ const AccommodationDetails = () => {
               </div>
             </div>
 
-            <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row gap-8">
+            <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row gap-8 mb-8">
               <div className="flex-1 space-y-4">
                 <p className="text-sm font-bold text-gray-500"><span className="text-gray-400">Ad type:</span> <span className="text-gray-800 uppercase tracking-wide">Accommodation</span></p>
                 <p className="text-sm font-bold text-gray-500"><span className="text-gray-400">Posted on:</span> <span className="text-gray-800">{formatDate(ad.createdAt)}</span></p>
@@ -209,7 +209,7 @@ const AccommodationDetails = () => {
               </div>
             </div>
 
-            <div className="border-t border-gray-200 pt-6 mt-6">
+            <div className="border-t border-gray-200 pt-6 flex-1">
               <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest mb-4">Description</h3>
               <p className="text-sm font-medium text-gray-600 leading-relaxed whitespace-pre-wrap">
                 {ad.description || 'No description provided.'}
@@ -224,52 +224,93 @@ const AccommodationDetails = () => {
         <div className="md:col-span-12 lg:col-span-4">
           <div className="flex flex-col gap-8 h-full">
           {/* Seller Snapshot */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-            <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-6">Seller Snapshot</h3>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4">
+            <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-4">Seller Snapshot</h3>
 
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 border-2 border-white shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 border-2 border-white shadow-sm">
                 {user.profileImage ? (
                   <img src={user.profileImage} alt="Seller" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-[#2d5496] text-white text-xl font-bold">
+                  <div className="w-full h-full flex items-center justify-center bg-[#2d5496] text-white text-lg font-bold">
                     {(user.name || 'S')[0]}
                   </div>
                 )}
               </div>
               <div>
-                <h4 className="text-sm font-black text-gray-800">{user.name}</h4>
-                <p className="text-[10px] font-bold text-gray-400">#{user._id?.substring(0, 8)}</p>
+                <h4 className="text-xs font-black text-gray-800">{user.name}</h4>
+                <p className="text-[9px] font-bold text-gray-400">#{user._id?.substring(0, 8)}</p>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                <span className="text-xs font-bold text-gray-500">Active Status</span>
-                <span className="text-xs font-black text-gray-800">{user.isActive ? 'Active' : 'Inactive'}</span>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center py-1.5 border-b border-gray-50">
+                <span className="text-[11px] font-bold text-gray-500">Active Status</span>
+                <span className="text-[11px] font-black text-gray-800">{user.isActive ? 'Active' : 'Inactive'}</span>
               </div>
-              <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                <span className="text-xs font-bold text-gray-500">Total Listings</span>
-                <span className="text-xs font-black text-gray-800">{user.totalAdsPosted || 0}</span>
+              <div className="flex justify-between items-center py-1.5 border-b border-gray-50">
+                <span className="text-[11px] font-bold text-gray-500">Total Listings</span>
+                <span className="text-[11px] font-black text-gray-800">{user.totalAdsPosted || 0}</span>
               </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-xs font-bold text-gray-500">Total Reports</span>
-                <span className={`text-xs font-black ${user.totalReports > 0 ? 'text-rose-500' : 'text-gray-800'}`}>
+              <div className="flex justify-between items-center py-1.5">
+                <span className="text-[11px] font-bold text-gray-500">Total Reports</span>
+                <span className={`text-[11px] font-black ${user.totalReports > 0 ? 'text-rose-500' : 'text-gray-800'}`}>
                   {user.totalReports || 0}
                 </span>
               </div>
             </div>
           </div>
 
+          {/* Reported Listing Section - Details of people who reported */}
+          <div className="bg-white rounded-lg shadow-sm border border-rose-100 p-4 flex flex-col h-[260px]">
+            <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-4 flex items-center gap-2">
+              Reported Listing <span className="px-2 py-0.5 bg-rose-100 text-rose-600 text-[10px] rounded-full">{reports.length}</span>
+            </h3>
+
+            {reports.length === 0 ? (
+              <div className="text-center py-auto my-auto">
+                <ShieldAlert className="w-10 h-10 text-gray-200 mx-auto mb-2" />
+                <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">No reports yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-1 min-h-0">
+                {reports.map(report => (
+                  <div key={report._id} className="p-3 bg-rose-50/50 rounded-lg border border-rose-100">
+                    <div className="flex gap-3 mb-2">
+                      <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 flex-shrink-0 border border-white">
+                        <div className="w-full h-full flex items-center justify-center bg-rose-500 text-white text-[10px] font-bold">
+                          {(report.reportedBy?.name || 'R')[0]}
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-0.5">
+                          <h4 className="text-[11px] font-black text-gray-800 truncate">{report.reportedBy?.name || 'Unknown User'}</h4>
+                          <span className="text-[9px] text-gray-400 font-bold">{formatDate(report.createdAt)}</span>
+                        </div>
+                        <p className="text-[10px] text-gray-500 font-bold truncate">{report.reportedBy?.email}</p>
+                      </div>
+                    </div>
+                    <div className="mt-2 pt-2 border-t border-rose-100">
+                      <p className="text-[10px] font-black text-rose-600 uppercase tracking-widest mb-1">Reason: {report.reason}</p>
+                      <p className="text-[11px] text-gray-600 font-medium leading-relaxed italic">
+                        "{report.comment || 'No comments.'}"
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* Reviews Section - Moved to Sidebar and made scrollable */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col flex-1 min-h-[300px]">
-            <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-6 flex items-center gap-2">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex flex-col h-[260px]">
+            <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-4 flex items-center gap-2">
               Reviews <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-[10px] rounded-full">{reviews.length}</span>
             </h3>
 
             {reviews.length === 0 ? (
-              <div className="text-center py-10">
-                <Star className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+              <div className="text-center py-auto my-auto">
+                <Star className="w-10 h-10 text-gray-200 mx-auto mb-2" />
                 <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">No reviews yet.</p>
               </div>
             ) : (
@@ -313,7 +354,7 @@ const AccommodationDetails = () => {
           {/* Conditional Rendering: Reported Issues */}
           {reports && reports.length > 0 && (
             <div className="bg-white rounded-lg shadow-sm border border-rose-100 p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-rose-50 rounded-bl-full -mr-10 -mt-10 pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-20 h-20 bg-rose-50 rounded-bl-lg-full -mr-10 -mt-10 pointer-events-none"></div>
 
               <h3 className="text-sm font-black text-gray-800 uppercase tracking-wider mb-6 relative z-10">Reported Issues</h3>
 

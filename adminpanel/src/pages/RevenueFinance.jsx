@@ -11,7 +11,7 @@ import bannerBg from '../assets/banner_bg.png';
 
 
 const RevenueCard = ({ title, items, color, totalLabel, totalValue }) => (
-  <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1">
+  <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex-1">
     <div className={`${color} px-5 py-4 text-white font-black text-sm uppercase tracking-wide`}>
       {title}
     </div>
@@ -33,7 +33,7 @@ const RevenueCard = ({ title, items, color, totalLabel, totalValue }) => (
   </div>
 );
 const StatCard = ({ title, value, change, trend }) => (
-  <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-1 hover:shadow-md transition-all duration-300">
+  <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 flex flex-col gap-1 hover:shadow-md transition-all duration-300">
     <span className="text-gray-500 text-[12px] font-bold uppercase tracking-wider">{title}</span>
     <h3 className="text-2xl font-black text-[#0d2137]">{value}</h3>
     <div className={`flex items-center gap-1 text-[13px] font-black ${trend === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
@@ -82,15 +82,15 @@ const RevenueFinance = () => {
       <div className="flex flex-wrap justify-between items-center gap-4">
         <h1 className="text-3xl font-black text-[#0d2137] tracking-tight">Revenue & Finance</h1>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+          <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
             <Globe className="w-4 h-4" />
             View More Countries
           </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+          <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
             <FileText className="w-4 h-4" />
             Generate Reports
           </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+          <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
             <Download className="w-4 h-4" />
             Export Data
           </button>
@@ -133,7 +133,7 @@ const RevenueFinance = () => {
       </div>
 
       {/* Banner Advertisement */}
-      <div className="relative h-44 w-full rounded-2xl overflow-hidden group cursor-pointer shadow-lg bg-[#ffb800]">
+      <div className="relative h-44 w-full rounded-lg overflow-hidden group cursor-pointer shadow-lg bg-[#ffb800]">
         <img src={bannerBg} alt="Promotion" className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" style={{ objectPosition: '100% 40%' }} />
         
         {/* Abstract Background Shapes as seen in reference */}
@@ -155,10 +155,10 @@ const RevenueFinance = () => {
       {/* Bottom Section: Expenditure & Pie Chart */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Table Section */}
-        <div className="xl:col-span-8 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="xl:col-span-8 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 border-b border-gray-50">
             <h3 className="text-lg font-black text-[#1e293b] mb-4">Expenditure Breakdown</h3>
-            <div className="flex gap-2 p-1 bg-gray-100 w-fit rounded-xl">
+            <div className="flex gap-2 p-1 bg-gray-100 w-fit rounded-lg">
               <button className="px-4 py-2 bg-[#2d5496] text-white rounded-lg text-[13px] font-bold shadow-sm">
                 Expenditure Breakdown
               </button>
@@ -171,11 +171,11 @@ const RevenueFinance = () => {
             <table className="w-full text-left border-separate border-spacing-0">
               <thead>
                 <tr className="bg-[#2d5496] text-white">
-                  <th className="px-6 py-4 text-[13px] font-bold rounded-tl-[20px]">Total Payout</th>
+                  <th className="px-6 py-4 text-[13px] font-bold rounded-tl-lg">Total Payout</th>
                   <th className="px-4 py-4 text-[13px] font-bold">Event Ticketing</th>
                   <th className="px-4 py-4 text-[13px] font-bold">Marketplace</th>
                   <th className="px-4 py-4 text-[13px] font-bold">Accommodation</th>
-                  <th className="px-4 py-4 text-[13px] font-bold rounded-tr-[20px]">Ad Banner</th>
+                  <th className="px-4 py-4 text-[13px] font-bold rounded-tr-lg">Ad Banner</th>
                 </tr>
               </thead>
               <tbody>
@@ -201,7 +201,7 @@ const RevenueFinance = () => {
         </div>
 
         {/* Pie Chart Section */}
-        <div className="xl:col-span-4 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col gap-6">
+        <div className="xl:col-span-4 bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col gap-6">
           <h3 className="text-lg font-black text-[#1e293b]">Total Expenditure Breakdown</h3>
           <div className="flex flex-col md:flex-row items-center gap-8 xl:flex-col">
             <div className="relative w-48 h-48 flex-shrink-0">
@@ -226,7 +226,7 @@ const RevenueFinance = () => {
                 { color: "bg-[#10b981]", label: "Organizers Payouts:", value: "$74,800", percent: "9%" },
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className={`w-3 h-3 rounded-sm ${item.color} mt-1.5 flex-shrink-0`}></div>
+                  <div className={`w-3 h-3 rounded-lg ${item.color} mt-1.5 flex-shrink-0`}></div>
                   <div className="flex flex-col flex-1">
                     <span className="text-[12px] font-bold text-gray-500 leading-tight">{item.label}</span>
                     <span className="text-[15px] font-black text-[#1e293b]">{item.value}</span>

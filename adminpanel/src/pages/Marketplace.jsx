@@ -78,7 +78,7 @@ const Marketplace = () => {
       </div>
 
       {/* Revenue Breakdown Section */}
-      <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+      <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-100">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
           <h2 className="text-xl font-black text-gray-800">Revenue Breakdown</h2>
           
@@ -88,12 +88,12 @@ const Marketplace = () => {
               <input 
                 type="text" 
                 placeholder="Search" 
-                className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20 focus:border-[#2d5496] transition-all"
+                className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20 focus:border-[#2d5496] transition-all"
               />
             </div>
-            <button className="px-6 py-2.5 bg-[#2d5496] text-white text-xs font-black rounded-xl uppercase hover:bg-[#204075] transition-colors">Review</button>
-            <button className="px-6 py-2.5 bg-[#ef4444] text-white text-xs font-black rounded-xl uppercase hover:bg-rose-600 transition-colors">Suspend</button>
-            <button className="px-6 py-2.5 bg-[#10b981] text-white text-xs font-black rounded-xl uppercase hover:bg-emerald-600 transition-colors">Boost</button>
+            <button className="px-6 py-2.5 bg-[#2d5496] text-white text-xs font-black rounded-lg uppercase hover:bg-[#204075] transition-colors">Review</button>
+            <button className="px-6 py-2.5 bg-[#ef4444] text-white text-xs font-black rounded-lg uppercase hover:bg-rose-600 transition-colors">Suspend</button>
+            <button className="px-6 py-2.5 bg-[#10b981] text-white text-xs font-black rounded-lg uppercase hover:bg-emerald-600 transition-colors">Boost</button>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ const Marketplace = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2 rounded-xl text-xs font-black uppercase transition-all whitespace-nowrap flex items-center gap-2
+                className={`px-6 py-2 rounded-lg text-xs font-black uppercase transition-all whitespace-nowrap flex items-center gap-2
                   ${activeTab === tab 
                     ? 'bg-[#2d5496] text-white shadow-lg shadow-[#2d5496]/20' 
                     : 'text-gray-500 hover:bg-gray-50 border border-transparent hover:border-gray-200'}`}
@@ -164,25 +164,25 @@ const Marketplace = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Listings Section */}
-        <div className="xl:col-span-8 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+        <div className="xl:col-span-8 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col">
           <div className="p-8 border-b border-gray-50">
             <h3 className="text-lg font-black text-gray-800 mb-6">Listings</h3>
             
             <div className="flex flex-wrap items-center gap-3">
                <div className="relative min-w-[140px]">
-                 <select className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20">
+                 <select className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20">
                    <option>All Listings</option>
                  </select>
                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                </div>
                <div className="relative min-w-[180px]">
-                 <select className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20">
+                 <select className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20">
                    <option>Reported Listing (310)</option>
                  </select>
                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                </div>
                <div className="relative min-w-[140px]">
-                 <select className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20">
+                 <select className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-bold text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20">
                    <option>Category</option>
                  </select>
                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -192,7 +192,7 @@ const Marketplace = () => {
                  <input 
                     type="text" 
                     placeholder="Search" 
-                    className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20 transition-all"
+                    className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#2d5496]/20 transition-all"
                  />
                </div>
             </div>
@@ -201,9 +201,9 @@ const Marketplace = () => {
           <div className="flex-1 overflow-hidden">
             <div className="px-8 py-4">
               {/* Table Header */}
-              <div className="grid grid-cols-12 gap-2 px-6 py-4 bg-[#2d5496] text-white rounded-xl text-[10px] font-black uppercase tracking-wider mb-2">
+              <div className="grid grid-cols-12 gap-2 px-6 py-4 bg-[#2d5496] text-white rounded-lg text-[10px] font-black uppercase tracking-wider mb-2">
                 <div className="col-span-3 flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 rounded border-white/20 bg-transparent text-emerald-500 focus:ring-0 cursor-pointer" />
+                  <input type="checkbox" className="w-4 h-4 rounded-lg border-white/20 bg-transparent text-emerald-500 focus:ring-0 cursor-pointer" />
                   <span>Title</span>
                 </div>
                 <span className="col-span-1 text-center">User</span>
@@ -219,8 +219,8 @@ const Marketplace = () => {
                 {listingsData.map((item, i) => (
                   <div key={item.id} className="grid grid-cols-12 gap-2 items-center px-6 py-4 hover:bg-gray-50/50 transition-colors relative">
                     <div className="col-span-3 flex items-center gap-3 min-w-0">
-                      <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-emerald-500 focus:ring-0 cursor-pointer" />
-                      <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
+                      <input type="checkbox" className="w-4 h-4 rounded-lg border-gray-300 text-emerald-500 focus:ring-0 cursor-pointer" />
+                      <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
                         <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex flex-col min-w-0">
@@ -232,7 +232,7 @@ const Marketplace = () => {
                       <span className="text-xs font-bold text-gray-600">{item.user}</span>
                     </div>
                     <div className="col-span-2 flex items-center justify-center gap-1.5 min-w-0">
-                      <div className="p-1 bg-gray-100 rounded flex-shrink-0">
+                      <div className="p-1 bg-gray-100 rounded-lg flex-shrink-0">
                         {item.category === 'Electronics' && <Zap className="w-3 h-3 text-gray-500" />}
                         {item.category === 'Fashion' && <ShoppingBag className="w-3 h-3 text-gray-500" />}
                         {item.category === 'Services' && <Package className="w-3 h-3 text-gray-500" />}
@@ -241,7 +241,7 @@ const Marketplace = () => {
                       <span className="text-[11px] font-bold text-gray-600 truncate">{item.category}</span>
                     </div>
                     <div className="col-span-2 flex justify-center">
-                      <span className={`px-2.5 py-1 text-[9px] font-black rounded uppercase tracking-tighter ${
+                      <span className={`px-2.5 py-1 text-[9px] font-black rounded-lg uppercase tracking-tighter ${
                         item.status === 'Boosted' ? 'bg-orange-500 text-white' : 
                         item.status === 'Paused' ? 'bg-[#2d5496] text-white' :
                         'bg-amber-400 text-white'
@@ -273,7 +273,7 @@ const Marketplace = () => {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[100] py-2"
+                            className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-2xl border border-gray-100 z-[100] py-2"
                           >
                              {['View User', 'View Ad', 'Flag Ad', 'Message User'].map((action) => (
                                <button 
@@ -330,12 +330,12 @@ const Marketplace = () => {
         </div>
 
         {/* Reported Content Sidebar */}
-        <div className="xl:col-span-4 bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col">
+        <div className="xl:col-span-4 bg-white rounded-lg shadow-sm border border-gray-100 p-8 flex flex-col">
           <h3 className="text-lg font-black text-gray-800 mb-8">Reported Content</h3>
           
           <div className="space-y-4 flex-1">
             {reportedContent.map((item, i) => (
-              <div key={i} className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100 flex items-center gap-4 hover:bg-white hover:shadow-md transition-all cursor-pointer">
+              <div key={i} className="p-4 bg-gray-50/50 rounded-lg border border-gray-100 flex items-center gap-4 hover:bg-white hover:shadow-md transition-all cursor-pointer">
                 <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                 </div>
@@ -354,7 +354,7 @@ const Marketplace = () => {
             ))}
           </div>
           
-          <button className="w-full mt-8 py-4 bg-gray-50 rounded-xl text-[10px] font-black uppercase text-gray-400 hover:text-[#2d5496] hover:bg-[#e2e8f0] transition-all flex items-center justify-center gap-1">
+          <button className="w-full mt-8 py-4 bg-gray-50 rounded-lg text-[10px] font-black uppercase text-gray-400 hover:text-[#2d5496] hover:bg-[#e2e8f0] transition-all flex items-center justify-center gap-1">
              View All <ChevronRight className="w-3 h-3" />
           </button>
         </div>

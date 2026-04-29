@@ -58,12 +58,10 @@ const Sidebar = () => {
         <SidebarLink to="/accommodations" icon={Hotel} label="Accommodation" />
         <SidebarLink to="/marketplace" icon={ShoppingBag} label="Marketplace" />
         <SidebarLink to="/events" icon={Calendar} label="Events" />
-        <SidebarLink to="/ads-management" icon={Megaphone} label="Ads Management" />
         <SidebarLink to="/enforcement" icon={UserCircle2} label="User & Enforcement" />
         <SidebarLink to="/subscription-plans" icon={BadgePercent} label="Subscription Plans" />
         <SidebarLink to="/kyc" icon={CheckCircle2} label="Profile Verification" />
         <SidebarLink to="/logs" icon={BarChart3} label="Reports & Audit Logs" />
-        <SidebarLink to="/settings" icon={Settings2} label="System & Country Settings" />
       </nav>
 
       {/* Footer / Logout */}

@@ -121,7 +121,7 @@ const Events = () => {
             </button>
           </div>
 
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col min-h-[700px] overflow-hidden">
+          <div className="bg-white rounded-lg border border-gray-100 shadow-sm flex flex-col min-h-[700px] overflow-hidden">
             {/* Tabs & Filters */}
             <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-4 border-b border-gray-50 bg-gray-50/30">
               <div className="flex flex-wrap items-center p-1 bg-gray-100/50 border border-gray-100 rounded-lg gap-1">
@@ -143,7 +143,7 @@ const Events = () => {
                     <Download className="w-3.5 h-3.5" />
                     Export CSV
                  </button>
-                 <div className="flex items-center p-1 bg-white border border-gray-100 rounded-xl gap-1">
+                 <div className="flex items-center p-1 bg-white border border-gray-100 rounded-lg gap-1">
                     <button className="p-1.5 rounded-lg bg-gray-50 text-gray-400"><LayoutGrid className="w-4 h-4" /></button>
                     <button className="p-1.5 rounded-lg text-gray-400"><MoreVertical className="w-4 h-4" /></button>
                  </div>
@@ -152,11 +152,11 @@ const Events = () => {
 
             {/* Filter Bar */}
             <div className="px-6 py-4 flex flex-wrap items-center gap-4 border-b border-gray-50 bg-white">
-               <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-transparent rounded-xl text-[10px] font-black text-gray-600 min-w-[120px] justify-between cursor-pointer hover:bg-gray-100 transition-colors">
+               <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-transparent rounded-lg text-[10px] font-black text-gray-600 min-w-[120px] justify-between cursor-pointer hover:bg-gray-100 transition-colors">
                   <span>Categories</span>
                   <ChevronDown className="w-3 h-3" />
                </div>
-               <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-transparent rounded-xl text-[10px] font-black text-gray-600 min-w-[120px] justify-between cursor-pointer hover:bg-gray-100 transition-colors">
+               <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-transparent rounded-lg text-[10px] font-black text-gray-600 min-w-[120px] justify-between cursor-pointer hover:bg-gray-100 transition-colors">
                   <span>Status</span>
                   <ChevronDown className="w-3 h-3" />
                </div>
@@ -165,7 +165,7 @@ const Events = () => {
                   <input 
                     type="text" 
                     placeholder="Search..." 
-                    className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent focus:bg-white focus:border-[#2d5496] rounded-xl text-sm font-medium outline-none transition-all"
+                    className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent focus:bg-white focus:border-[#2d5496] rounded-lg text-sm font-medium outline-none transition-all"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
@@ -177,8 +177,8 @@ const Events = () => {
               <table className="w-full text-left border-separate border-spacing-0 table-fixed">
                 <thead>
                   <tr className="bg-[#2d5496] text-white">
-                    <th className="w-10 px-4 py-4 rounded-tl-lg">
-                      <input type="checkbox" className="rounded border-white/20 bg-white/10" />
+                    <th className="w-10 px-4 py-4 rounded-tl-lg-lg">
+                      <input type="checkbox" className="rounded-lg border-white/20 bg-white/10" />
                     </th>
                     <th className="w-[28%] px-2 py-4 text-[9px] font-black uppercase tracking-wider">Title</th>
                     <th className="w-[12%] px-2 py-4 text-[9px] font-black uppercase tracking-wider">Category</th>
@@ -186,7 +186,7 @@ const Events = () => {
                     <th className="w-[12%] px-2 py-4 text-[9px] font-black uppercase tracking-wider">Status</th>
                     <th className="w-[14%] px-2 py-4 text-[9px] font-black uppercase tracking-wider">Payout</th>
                     <th className="w-[11%] px-2 py-4 text-[9px] font-black uppercase tracking-wider whitespace-nowrap">Date</th>
-                    <th className="w-[11%] px-2 py-4 text-[9px] font-black uppercase tracking-wider rounded-tr-lg">Actions</th>
+                    <th className="w-[11%] px-2 py-4 text-[9px] font-black uppercase tracking-wider rounded-tr-lg-lg">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -201,11 +201,11 @@ const Events = () => {
                         className="hover:bg-gray-50/80 transition-colors group"
                       >
                         <td className="px-4 py-4 border-b border-gray-200">
-                          <input type="checkbox" className="rounded border-gray-200" />
+                          <input type="checkbox" className="rounded-lg border-gray-200" />
                         </td>
                         <td className="px-2 py-4 border-b border-gray-200">
                           <div className="flex items-center gap-2">
-                            <div className="w-9 h-9 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-200 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                            <div className="w-9 h-9 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-200 shadow-sm group-hover:scale-105 transition-transform duration-300">
                               {event.itemImages?.[0] ? (
                                 <img src={event.itemImages[0]} alt="" className="w-full h-full object-cover" />
                               ) : (
@@ -269,7 +269,7 @@ const Events = () => {
                                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                  animate={{ opacity: 1, scale: 1, y: 0 }}
                                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                 className="absolute right-0 top-full mt-2 w-44 bg-white rounded-xl shadow-2xl border border-gray-100 p-1.5 z-[999] origin-top-right"
+                                 className="absolute right-0 top-full mt-2 w-44 bg-white rounded-lg shadow-2xl border border-gray-100 p-1.5 z-[999] origin-top-right"
                                >
                                   {[
                                     { icon: User, label: 'View User' },
@@ -278,7 +278,7 @@ const Events = () => {
                                     { icon: MessageSquare, label: 'Message' },
                                     { icon: BarChart3, label: 'Sales' },
                                   ].map((action, i) => (
-                                    <button key={i} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-50 rounded-xl transition-colors group text-left">
+                                    <button key={i} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors group text-left">
                                       <action.icon className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#2d5496]" />
                                       <span className="text-[10px] font-black text-gray-600 group-hover:text-[#2d5496]">{action.label}</span>
                                     </button>
@@ -298,9 +298,9 @@ const Events = () => {
             <div className="px-6 py-4 bg-gray-50/10 border-t border-gray-50 flex flex-wrap items-center justify-between gap-4">
                <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none">Showing {events.length} of {stats.totalEvents} Events</p>
                <div className="flex items-center gap-2">
-                  <button className="px-3 py-2 bg-white border border-gray-100 rounded-xl text-[9px] font-black uppercase text-gray-400 cursor-not-allowed">Prev</button>
-                  <button className="w-8 h-8 rounded-xl bg-[#2d5496] text-white text-[9px] font-black shadow-lg">1</button>
-                  <button className="px-3 py-2 bg-white border border-gray-100 rounded-xl text-[9px] font-black uppercase text-gray-600 hover:border-brand-primary transition-colors">Next</button>
+                  <button className="px-3 py-2 bg-white border border-gray-100 rounded-lg text-[9px] font-black uppercase text-gray-400 cursor-not-allowed">Prev</button>
+                  <button className="w-8 h-8 rounded-lg bg-[#2d5496] text-white text-[9px] font-black shadow-lg">1</button>
+                  <button className="px-3 py-2 bg-white border border-gray-100 rounded-lg text-[9px] font-black uppercase text-gray-600 hover:border-brand-primary transition-colors">Next</button>
                </div>
             </div>
           </div>
@@ -308,7 +308,7 @@ const Events = () => {
 
         {/* Right Sidebar */}
         <div className="w-full xl:w-72 space-y-6 flex-shrink-0">
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+          <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
                <h3 className="text-xs font-black text-gray-800 leading-tight tracking-tight uppercase">Upcoming Events<br/><span className="text-[#02b290]">by Ticket Sales</span></h3>
                <BarChart3 className="w-4 h-4 text-gray-300" />
@@ -321,7 +321,7 @@ const Events = () => {
                  { title: 'AfroBeats Night Party', category: 'Music', trend: '+620', trendVal: 'GHS 500' },
                  { title: 'A-Z Concept Product Design', category: 'Design', trend: '+620', trendVal: 'GHS 500' },
                ].map((item, idx) => (
-                 <div key={idx} className="bg-gray-50/50 border border-gray-50/50 p-4 rounded-xl flex items-center gap-3 group cursor-pointer hover:bg-white hover:shadow-xl hover:border-gray-100 transition-all duration-300">
+                 <div key={idx} className="bg-gray-50/50 border border-gray-50/50 p-4 rounded-lg flex items-center gap-3 group cursor-pointer hover:bg-white hover:shadow-xl hover:border-gray-100 transition-all duration-300">
                     <div className="w-12 h-12 rounded-lg bg-white flex-shrink-0 border border-gray-100 shadow-sm group-hover:scale-110 transition-transform"></div>
                     <div className="flex-1 min-w-0">
                        <p className="text-[11px] font-black text-gray-800 leading-tight truncate">{item.title}</p>
@@ -338,19 +338,19 @@ const Events = () => {
                ))}
             </div>
             
-            <button className="w-full mt-6 py-3 text-[9px] font-black text-[#2d5496] uppercase hover:bg-gray-50 rounded-2xl transition-all border border-gray-50">View All</button>
+            <button className="w-full mt-6 py-3 text-[9px] font-black text-[#2d5496] uppercase hover:bg-gray-50 rounded-lg transition-all border border-gray-50">View All</button>
           </div>
 
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+          <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-6">
             <h3 className="text-xs font-black text-gray-800 mb-6 uppercase tracking-widest text-center">Reported Events</h3>
             
-            <div className="bg-red-50/30 rounded-xl p-5 flex items-center gap-4 hover:bg-white hover:shadow-lg transition-all border border-red-50 cursor-pointer group">
-               <div className="w-10 h-10 rounded-2xl bg-white border border-red-100 flex-shrink-0"></div>
+            <div className="bg-red-50/30 rounded-lg p-5 flex items-center gap-4 hover:bg-white hover:shadow-lg transition-all border border-red-50 cursor-pointer group">
+               <div className="w-10 h-10 rounded-lg bg-white border border-red-100 flex-shrink-0"></div>
                <div className="flex-1 min-w-0">
                   <p className="text-[11px] font-black text-gray-800 leading-tight truncate">Fashion Report</p>
                   <p className="text-[9px] font-bold text-red-500 uppercase mt-1">Pending Review</p>
                </div>
-               <button className="px-3 py-1.5 bg-[#2d5496] text-white rounded-xl text-[9px] font-black uppercase">Review</button>
+               <button className="px-3 py-1.5 bg-[#2d5496] text-white rounded-lg text-[9px] font-black uppercase">Review</button>
             </div>
           </div>
         </div>

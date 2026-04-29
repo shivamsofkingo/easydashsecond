@@ -35,14 +35,14 @@ const LoginPage = () => {
       </div>
 
       {/* Login Card */}
-      <div className="w-full max-w-[480px] bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden">
+      <div className="w-full max-w-[480px] bg-white rounded-lg p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden">
         {/* Background shapes (WordPress style inspiration) */}
         <div className="absolute -left-10 -top-10 w-32 h-32 bg-brand-primary/5 rounded-full blur-3xl"></div>
         <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-secondary/5 rounded-full blur-2xl"></div>
 
         <form onSubmit={handleLogin} className="relative z-10 space-y-6">
           {error && (
-            <div className="bg-rose-50 border border-rose-100 text-rose-600 text-sm py-3 px-4 rounded-xl flex items-center gap-2 animate-in slide-in-from-top-2">
+            <div className="bg-rose-50 border border-rose-100 text-rose-600 text-sm py-3 px-4 rounded-lg flex items-center gap-2 animate-in slide-in-from-top-2">
               <span className="font-bold">Error:</span> {error}
             </div>
           )}
@@ -56,7 +56,7 @@ const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#f6f7f9] border border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-gray-800 focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
+                  className="w-full bg-[#f6f7f9] border border-gray-200 rounded-lg py-3.5 pl-11 pr-4 text-gray-800 focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
                   required
                 />
               </div>
@@ -70,7 +70,7 @@ const LoginPage = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-[#f6f7f9] border border-gray-200 rounded-xl py-3.5 pl-11 pr-12 text-gray-800 focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
+                  className="w-full bg-[#f6f7f9] border border-gray-200 rounded-lg py-3.5 pl-11 pr-12 text-gray-800 focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
                   required
                 />
                 <button
@@ -85,7 +85,7 @@ const LoginPage = () => {
           </div>
 
           <div className="flex items-center justify-end px-1">
-            <button type="submit" disabled={isLoading} className="bg-brand-primary hover:bg-brand-accent text-white font-bold py-3 px-10 rounded-xl shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/30 transition-all flex items-center justify-center min-w-[140px]">
+            <button type="submit" disabled={isLoading} className="bg-brand-primary hover:bg-brand-accent text-white font-bold py-3 px-10 rounded-lg shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/30 transition-all flex items-center justify-center min-w-[140px]">
               {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Log in'}
             </button>
           </div>
